@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DepartmentTableSeeder extends Seeder
+class DepartmentRolesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,6 @@ class DepartmentTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        factory(\App\Models\Department::class, 1)->create();
+        factory(\App\Models\DepartmentRole::class, 1)->create();
     }
 }
