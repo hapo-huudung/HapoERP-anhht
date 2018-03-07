@@ -18,10 +18,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
-Route::middleware('auth')->group(function (){
+Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::middleware('create')->group(function (){
-        Route::resource('users', 'UserController');
+
+    Route::middleware('department')->group(function () {
+
+        Route::middleware('create')->prefix('users')->namespace('Department')->group(function () {
+
+            Route::get('create', 'UserController@create')->name('users.create');
+
+        });
+
     });
+
+
 });

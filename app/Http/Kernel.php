@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CheckCreate;
+use App\Http\Middleware\CheckDepartment;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -59,6 +60,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Ill\App\Http\Middleware\uminate\Routing\Middleware\ThrottleRequests::class,
+        'department' => \App\Http\Middleware\CheckDepartment::class,
         'create'=> \App\Http\Middleware\CheckCreate::class,
     ];
 }

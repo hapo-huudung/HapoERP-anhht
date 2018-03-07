@@ -2,11 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\UserRole;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class CheckCreate
+class CheckDepartment
 {
     /**
      * Handle an incoming request.
@@ -17,12 +15,6 @@ class CheckCreate
      */
     public function handle($request, Closure $next)
     {
-        $id=Auth::user()->id;
-        $users= UserRole::where('user_id',$id)->where('department_id',1)->get();
-        foreach ($users as $user)
-        {
-            if($user->create != 1) return redirect()->back();
-        }
         return $next($request);
     }
 }

@@ -17,10 +17,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=UserRole::where('user_id', 1)->where('department_id',1)->get();
+        $id=1;
+        $users=UserRole::where('user_id', $id)->where('department_id',1)->get();
+        dd($users);
         foreach ($users as $user)
         {
-            if($user['create'] == 0) echo "fail";
+            dd($user);
         }
     }
 
@@ -31,7 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        echo "create";
+        echo "fail";
     }
 
     /**
