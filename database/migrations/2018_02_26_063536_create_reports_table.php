@@ -17,7 +17,9 @@ class CreateReportsTable extends Migration
             $table->increments('id');
             $table->dateTime('starts_at');
             $table->dateTime('ends_at');
-            $table->text('content');
+            $table->text('today_do');
+            $table->text('tomorrow_do');
+            $table->text('problems');
             $table->integer('user_id');
             $table->softDeletes();
             $table->timestamps();
