@@ -1,12 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Models\Absence;
-use App\Models\Department;
-use App\Models\User;
-use App\Models\UserRole;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
@@ -17,13 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $id=1;
-        $users=UserRole::where('user_id', $id)->where('department_id',1)->get();
-        dd($users);
-        foreach ($users as $user)
-        {
-            dd($user);
-        }
+        //
+        echo "index";
     }
 
     /**
@@ -33,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        echo "fail";
+        //
     }
 
     /**
@@ -56,6 +48,7 @@ class UserController extends Controller
     public function show($id)
     {
         //
+        echo "success";
     }
 
     /**
