@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\DepartmentRole;
-use App\UserRole;
+use App\Models\UserRole;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
+
 
 class User extends Authenticatable
 {
@@ -36,6 +38,13 @@ class User extends Authenticatable
     protected $dates = [
         'birthday', 'deleted_at',
     ];
+
+    //This method automatically fetch date d-m-Y format from database
+
+    public function getBirthdayAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d', $date)->format('d-m-Y');
+    }
 
     public function absences()
     {

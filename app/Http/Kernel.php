@@ -2,6 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckCreate;
+use App\Http\Middleware\CheckDepartment;
+use App\Http\Middleware\User\CheckUpdate;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -57,6 +60,11 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'throttle' => \Ill\App\Http\Middleware\uminate\Routing\Middleware\ThrottleRequests::class,
+        'department' => \App\Http\Middleware\CheckDepartment::class,
+        'create'=> \App\Http\Middleware\User\CheckCreate::class,
+        'update' => \App\Http\Middleware\User\CheckUpdate::class,
+        'read' => \App\Http\Middleware\User\CheckRead::class,
+        'delete' => \App\Http\Middleware\User\CheckDelete::class,
     ];
 }

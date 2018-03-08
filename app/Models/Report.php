@@ -9,7 +9,7 @@ class Report extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'starts_at', 'ends_at', 'content', 'user_id',
+        'starts_at', 'ends_at', 'today_do', 'tomorrow_do', 'problems', 'user_id',
     ];
 
     protected $dates = [

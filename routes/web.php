@@ -15,8 +15,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('users', 'UserController');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::namespace('User')->group(function () {
+        Route::resource('users', 'UserController');
+        Route::resource('reports','ReportController');
+        Route::resource('reports', 'ReportController');
+    });
+
+    Route::middleware('department')->prefix('users/department')->namespace('Department')->group(function () {
+        Route::get('{id}', 'UserController@show')->name('user.department.show');
+//
+        Route::middleware('create')->group(function () {
+            Route::get('{id}/create', 'UserController@create')->name('users.department.create');
+        });
+//
+        Route::middleware('update')->group(function () {
+            Route::get('{id}/update', 'UserController@update')->name('users.department.update');
+        });
+//
+        Route::middleware('delete')->group(function () {
+            Route::get('{id}/delete', 'UserController@delete')->name('users.department.delete');
+        });
+//
+        Route::middleware('read')->group(function () {
+            Route::get('{id}/read', 'UserController@read')->name('users.department.read');
+        });
+    });
+
+
+});
+
