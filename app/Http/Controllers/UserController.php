@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewUserRequest;
 use App\Models\Absence;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use function redirect;
 
 class UserController extends Controller
 {
@@ -17,7 +19,12 @@ class UserController extends Controller
      */
     public function index()
     {
-
+        //
+        $users = User::all();
+        $data = [
+          'users' => $users,
+        ];
+        return view('users.index',$data);
     }
 
     /**
@@ -27,7 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -36,9 +43,12 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewUserRequest $request)
     {
         //
+        User::create($request->all());
+        dd($request->errors);
+        return redirect()->route('users.index');
     }
 
     /**
@@ -49,7 +59,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $data = [
+            'user' => $user,
+        ];
+        return view('users.show',$data);
     }
 
     /**
@@ -83,6 +97,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->back();
     }
 }
