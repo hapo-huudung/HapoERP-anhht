@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\RollCall;
+use Illuminate\Support\Facades\Auth;
 
 class RollCallController extends Controller
 {
@@ -26,10 +28,10 @@ class RollCallController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-//    public function create()
-//    {
-//        //
-//    }
+    public function create()
+    {
+        return view('rollcalls.create');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,7 +41,11 @@ class RollCallController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rollcall = new RollCall();
+        $rollcall->start_at = Carbon::now();
+        $rollcall->user_id = Auth::id();
+        $rollcall->save();
+        return view('rollcalls.index');
     }
 
     /**
