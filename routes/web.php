@@ -15,3 +15,4 @@ Route::get('/', 'UserController@index');
 Auth::routes();
 Route::resource('users','UserController');
 Route::resource('reports','ReportController');
+Route::resource('rollcalls','RollCallController');
