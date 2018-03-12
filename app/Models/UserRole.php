@@ -14,6 +14,4 @@ class UserRole extends Model
     protected $fillable = [
         'user_id', 'department_id', 'create', 'read', 'update', 'delete',
     ];
-
-
 }

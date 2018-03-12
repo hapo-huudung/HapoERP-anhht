@@ -22,7 +22,9 @@ class CheckRead
         $users = UserRole::where('user_id', $id)->where('department_id', $department_id)->get();
 
         foreach ($users as $user) {
-            if ($user->read != 1) return redirect()->back();
+            if ($user->read != 1) {
+                return redirect()->back();
+            }
         }
         return $next($request);
     }

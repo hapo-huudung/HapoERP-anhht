@@ -4,10 +4,10 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="{{ Auth::user()->avatar }}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p>{{ Auth::user()->name }}</p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -24,19 +24,52 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">MAIN NAVIGATION</li>
+            <li class="header">User</li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                    <i class="fa fa-dashboard"></i> <span>Ability</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                    <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                    <li><a href="{{ route('user.rollcall') }}"><i class="fa fa-circle-o"></i> Roll Call</a></li>
                 </ul>
             </li>
+            @foreach( $user_roles as $user_role)
+                @foreach( $departments as $department)
+                    @if( $user_role->department_id == $department->id )
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-dashboard"></i> <span>{{ 'Department_'.$department->name }}</span>
+                                <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                @if( $user_role->create == 1)
+                                    <li>
+                                        <a href="{{ route('users.department.create',['id'=>$user_role->department_id]) }}"><i
+                                                    class="fa fa-circle-o"></i> Create</a>
+                                    </li>
+                                @endif
+                                @if( $user_role->read == 1)
+                                    <li><a href="{{ route('users.department.read',['id'=>$user_role->department_id]) }}"><i class="fa fa-circle-o"></i> Read</a>
+                                    </li>
+                                @endif
+                                @if( $user_role->update ==1)
+                                    <li><a href="{{ route('users.department.update',['id'=>$user_role->department_id]) }}"><i class="fa fa-circle-o"></i> Update</a>
+                                    </li>
+                                @endif
+                                @if( $user_role->delete ==1)
+                                    <li><a href="{{ route('users.department.delete',['id'=>$user_role->department_id]) }}"><i class="fa fa-circle-o"></i> Delete</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+                @endforeach
+            @endforeach
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-files-o"></i>
@@ -49,7 +82,8 @@
                     <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
                     <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
                     <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                    <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                    <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a>
+                    </li>
                 </ul>
             </li>
             <li>

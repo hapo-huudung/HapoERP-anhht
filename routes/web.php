@@ -21,8 +21,9 @@ Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::namespace('User')->group(function () {
+        Route::get('users/rollcall', 'UserController@rollCall')->name('user.rollcall');
+        Route::put('users/uploadavatar/{id}', 'UserController@uploadAvatar')->name('users.upload.avatar');
         Route::resource('users', 'UserController');
-        Route::resource('reports','ReportController');
         Route::resource('reports', 'ReportController');
     });
 
@@ -45,7 +46,4 @@ Route::middleware('auth')->group(function () {
             Route::get('{id}/read', 'UserController@read')->name('users.department.read');
         });
     });
-
-
 });
-

@@ -8,4 +8,3 @@ $factory->define(App\Models\Holiday::class, function (Faker $faker) {
         'content' => 'holiday',
     ];
 });
-

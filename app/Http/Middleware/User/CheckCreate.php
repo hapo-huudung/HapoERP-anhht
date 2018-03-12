@@ -22,9 +22,10 @@ class CheckCreate
         $users = UserRole::where('user_id', $id)->where('department_id', $department_id)->get();
 
         foreach ($users as $user) {
-            if ($user->create != 1) return redirect()->back();
+            if ($user->create != 1) {
+                return redirect()->back();
             }
+        }
         return $next($request);
-
     }
 }
