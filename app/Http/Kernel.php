@@ -61,11 +61,12 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Ill\App\Http\Middleware\uminate\Routing\Middleware\ThrottleRequests::class,
-        'department' => \App\Http\Middleware\CheckDepartment::class,
+        'departments' => \App\Http\Middleware\CheckDepartment::class,
         'create' => \App\Http\Middleware\User\CheckCreate::class,
         'update' => \App\Http\Middleware\User\CheckUpdate::class,
         'read' => \App\Http\Middleware\User\CheckRead::class,
         'delete' => \App\Http\Middleware\User\CheckDelete::class,
         'ability' => \App\Http\Middleware\User\Ability::class,
+        'level' => \App\Http\Middleware\User\CheckLevel::class,
     ];
 }

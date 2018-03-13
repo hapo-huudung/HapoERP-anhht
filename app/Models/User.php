@@ -15,16 +15,14 @@ class User extends Authenticatable
 
     use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    const NORMAL = 1;
+    const DYNAMIC = 2;
+
     protected $attributes = [
         'avatar' => '/storage/default.png',
     ];
     protected $fillable = [
-        'name', 'email', 'password', 'birthday', 'address', 'avatar',
+        'name', 'email', 'password', 'birthday', 'address', 'avatar','level',
     ];
 
     /**
@@ -75,9 +73,5 @@ class User extends Authenticatable
     public function departments()
     {
         return $this->belongsToMany(Department::class, 'user_roles');
-    }
-    public function companyUser()
-    {
-        return $this->hasOne(CompanyUser::class);
     }
 }

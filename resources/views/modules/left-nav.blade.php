@@ -33,22 +33,38 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('users.show', Auth::user()->id) }}"><i class="fa fa-circle-o"></i> Show</a></li>
-                    <li><a href="{{ route('users.edit', Auth::user()->id) }}"><i class="fa fa-circle-o"></i> Edit</a></li>
-                    <li><a href="{{ route('users.rollcall', Auth::user()->id) }}"><i class="fa fa-circle-o"></i> Roll Call</a></li>
+                    <li><a href="{{ route('users.show', Auth::user()->id) }}"><i class="fa fa-circle-o"></i> Show</a>
+                    </li>
+                    <li><a href="{{ route('users.edit', Auth::user()->id) }}"><i class="fa fa-circle-o"></i> Edit</a>
+                    </li>
+                    <li><a href="{{ route('users.rollcall', Auth::user()->id) }}"><i class="fa fa-circle-o"></i> Roll
+                            Call</a></li>
                 </ul>
             </li>
+            @if(Auth::user()->level == \App\Models\User::DYNAMIC)
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Ability_Extend</span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                           </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i>List User</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i>Create User</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i>List Department</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i>Create Department</a></li>
+
+                    </ul>
+                </li>
+            @endif
             @foreach( $user_roles as $user_role)
                 @foreach( $departments as $department)
                     @if( $user_role->department_id == $department->id )
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-dashboard"></i>
-                                @if($department->id==1)
-                                    <span>{{ $department->name }}</span>
-                                @else
-                                    <span>{{ 'Department_'.$department->name }}</span>
-                                @endif
+                                <span>{{ 'Department_'.$department->name }}</span>
                                 <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -56,25 +72,25 @@
                             <ul class="treeview-menu">
                                 @if( $user_role->create == 1)
                                     <li>
-                                        <a href="{{ route('users.department.create',['id'=>$user_role->department_id]) }}"><i
+                                        <a href="{{ route('users.departments',['id'=>$user_role->department_id]) }}"><i
                                                     class="fa fa-circle-o"></i> Create</a>
                                     </li>
                                 @endif
                                 @if( $user_role->read == 1)
                                     <li>
-                                        <a href="{{ route('users.department.read',['id'=>$user_role->department_id]) }}"><i
+                                        <a href="{{ route('users.departments',['id'=>$user_role->department_id]) }}"><i
                                                     class="fa fa-circle-o"></i> Read</a>
                                     </li>
                                 @endif
                                 @if( $user_role->update ==1)
                                     <li>
-                                        <a href="{{ route('users.department.update',['id'=>$user_role->department_id]) }}"><i
+                                        <a href="{{ route('users.departments',['id'=>$user_role->department_id]) }}"><i
                                                     class="fa fa-circle-o"></i> Update</a>
                                     </li>
                                 @endif
                                 @if( $user_role->delete ==1)
                                     <li>
-                                        <a href="{{ route('users.department.delete',['id'=>$user_role->department_id]) }}"><i
+                                        <a href="{{ route('users.departments',['id'=>$user_role->department_id]) }}"><i
                                                     class="fa fa-circle-o"></i> Delete</a>
                                     </li>
                                 @endif

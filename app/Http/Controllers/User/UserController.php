@@ -19,28 +19,18 @@ class UserController extends Controller
 {
     public function index()
     {
-        $id = Auth::user()->id;
         $users = User::all();
-        $departments = Department::all();
-        $user_roles = UserRole::where('user_id', $id)->get();
         $data = [
             'users' => $users,
-            'departments' => $departments,
-            'user_roles' => $user_roles,
         ];
         return view('users.index', $data);
     }
 
     public function create()
     {
-        $id = Auth::user()->id;
         $users = User::all();
-        $departments = Department::all();
-        $user_roles = UserRole::where('user_id', $id)->get();
         $data = [
             'users' => $users,
-            'departments' => $departments,
-            'user_roles' => $user_roles,
         ];
         return view('users.create', $data);
     }
@@ -54,12 +44,13 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        $departments = Department::all();
         $user_roles = UserRole::where('user_id', $user->id)->get();
+        $departments = Department::all();
+
         $data = [
             'user' => $user,
-            'departments' => $departments,
             'user_roles' => $user_roles,
+            'departments' => $departments,
         ];
         return view('users.show', $data);
     }
@@ -73,7 +64,8 @@ class UserController extends Controller
             'user' => $user,
             'departments' => $departments,
             'user_roles' => $user_roles,
-        ];        return view('users.edit',$data);
+        ];
+        return view('users.edit', $data);
     }
 
     public function update(UpdateUserRequest $request, $id)
@@ -82,7 +74,7 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password'=> $request->password,
+            'password' => $request->password,
             'address' => $request->address,
             'birthday' => $request->birthday,
         ]);

@@ -63,6 +63,17 @@
 
                             <hr>
 
+                            <strong><i class="fa fa-book margin-r-5"></i> Level</strong>
+                            <p>
+                                @if(Auth::user()->level == \App\Models\User::DYNAMIC)
+                                    <span class="label label-warning">DYNAMIC</span>
+                                @else
+                                    <span class="label label-success">NORMAL</span>
+                                @endif
+                            </p>
+
+                            <hr>
+
                             <strong><i class="fa fa-map-marker margin-r-5"></i> Birthday</strong>
 
                             <p class="text-muted">{{ Auth::user()->birthday }}</p>
