@@ -20,10 +20,10 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::middleware('ability')->namespace('User')->group(function () {
+    Route::namespace('User')->group(function () {
         Route::get('users/{user}/rollcall', 'UserController@rollCall')->name('users.rollcall');
         Route::put('users/{user}/uploadavatar', 'UserController@uploadAvatar')->name('users.upload.avatar');
-        Route::resource('users', 'UserController',['only'=>['show','edit','update']]);
+        Route::resource('users', 'UserController');
     });
     Route::middleware('level')->prefix('user/manage')->namespace('User')->group(function (){
        Route::get('/','ManageController@index')->name('users.manage');
@@ -36,11 +36,14 @@ Route::middleware('auth')->group(function () {
         Route::get('{id}', 'UserController@index')->name('users.departments');
 //
         Route::middleware('create')->group(function () {
-            Route::get('{id}/create', 'UserController@create')->name('users.departments.create');
+            Route::get('{id}/select', 'UserController@select')->name('users.departments.select');
+            Route::get('{id}/create/{user}','UserController@create')->name('users.departments.create');
+            Route::post('{id}','UserController@store')->name('users.departments.store');
         });
 //
-        Route::middleware('update')->group(function () {
-            Route::get('{id}/update', 'UserController@update')->name('users.departments.update');
+        Route::middleware('edit')->group(function () {
+            Route::get('{id}/edit/{user}','UserController@edit')->name('users.departments.edit');
+            Route::put('{id}/{user}','UserController@update')->name('users.departments.update');
         });
 //
         Route::middleware('delete')->group(function () {

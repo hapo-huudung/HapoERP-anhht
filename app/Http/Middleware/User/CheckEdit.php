@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware\User;
 
-use Closure;
 use App\Models\UserRole;
+use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class CheckUpdate
+class CheckEdit
 {
     /**
      * Handle an incoming request.

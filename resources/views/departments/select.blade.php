@@ -23,6 +23,9 @@
                             <h3 class="box-title">Hover Data Table</h3>
                         </div>
                         <!-- /.box-header -->
+                        @php
+                            $count = 0
+                        @endphp
                         <div class="box-body">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
@@ -31,36 +34,32 @@
                                     <th>Email</th>
                                     <th>Birthday</th>
                                     <th>Address</th>
-                                    <th>Level</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($users as $user)
-                                    <tr>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>{{$user->birthday}}</td>
-                                        <td>{{$user->address}}</td>
-                                        <td>
-                                            @if($user->level==\App\Models\User::NORMAL)
-                                                <span class="label label-default">NORMAL</span>
-                                            @endif
-                                            @if($user->level==\App\Models\User::DYNAMIC)
-                                                    <span class="label label-primary">DYNAMIC</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{route('users.show',$user->id)}}" class="btn btn-success">Show</a>
-                                            <a href="{{route('users.edit',$user->id)}}" class="btn btn-warning">Edit</a>
-                                            <form action="{{ route('users.destroy',['id'=>$user->id]) }}" method="post"
-                                                  class="form inline">
-                                                {{ csrf_field() }}
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <button class="btn btn-danger " type="submit">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    @php
+                                        $count =0
+                                    @endphp
+                                    @foreach($department_users as $department_user)
+                                        @if($department_user->user_id == $user->id)
+                                            @php
+                                                $count=1
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                    @if($count != 1)
+                                        <tr>
+                                            <td>{{$user->name}}</td>
+                                            <td>{{$user->email}}</td>
+                                            <td>{{$user->birthday}}</td>
+                                            <td>{{$user->address}}</td>
+                                            <td>
+                                                <a href="{{ route('users.departments.create',['user'=>$user->id,'id'=>$department_user->department_id]) }}" class="btn btn-success">Add</a>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                                 </tbody>
                                 <tfoot>
@@ -69,7 +68,6 @@
                                     <th>Email</th>
                                     <th>Birthday</th>
                                     <th>Address</th>
-                                    <th>Level</th>
                                     <th></th>
                                 </tr>
                                 </tfoot>

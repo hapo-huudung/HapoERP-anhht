@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             ReportsTableSeeder::class,
             RollCallsTableSeeder::class,
             SalariesTableSeeder::class,
-            DepartmentRolesTableSeeder::class,
             DepartmentsTableSeeder::class,
             UserRolesTableSeeder::class,
         ]);

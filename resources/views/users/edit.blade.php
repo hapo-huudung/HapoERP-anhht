@@ -35,7 +35,6 @@
                                 </ul>
                             </div>
                         @endif
-
                         <form role="form" action="{{route('users.update',$user->id)}}" method="POST">
                             {{ csrf_field() }}
                             <input type="hidden" name="_method" value="PUT">

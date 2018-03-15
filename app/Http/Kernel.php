@@ -63,7 +63,7 @@ class Kernel extends HttpKernel
         'throttle' => \Ill\App\Http\Middleware\uminate\Routing\Middleware\ThrottleRequests::class,
         'departments' => \App\Http\Middleware\CheckDepartment::class,
         'create' => \App\Http\Middleware\User\CheckCreate::class,
-        'update' => \App\Http\Middleware\User\CheckUpdate::class,
+        'edit' => \App\Http\Middleware\User\CheckEdit::class,
         'read' => \App\Http\Middleware\User\CheckRead::class,
         'delete' => \App\Http\Middleware\User\CheckDelete::class,
         'ability' => \App\Http\Middleware\User\Ability::class,

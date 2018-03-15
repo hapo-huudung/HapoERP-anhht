@@ -32,33 +32,31 @@
                                     <th>Birthday</th>
                                     <th>Address</th>
                                     <th></th>
-                                    <th></th>
-                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($users as $user)
                                     @foreach($department_users as $department_user)
                                         @if($department_user->user_id == $user->id)
-                                    <tr>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>{{$user->birthday}}</td>
-                                        <td>{{$user->address}}</td>
-                                        <td>
-                                            <a href="#" class="btn btn-success">Show</a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="btn btn-warning">Edit</a>
-                                        </td>
-                                        <td>
-                                            {{ Form::open(['method' => 'DELETE']) }}
-                                            {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
-                                            {{ Form::close() }}
-                                        </td>
-                                    </tr>
-                                    @endif
-                                        @endforeach
+                                            <tr>
+                                                <td>{{$user->name}}</td>
+                                                <td>{{$user->email}}</td>
+                                                <td>{{$user->birthday}}</td>
+                                                <td>{{$user->address}}</td>
+                                                <td>
+                                                    <a href="#" class="btn btn-success">Show</a>
+                                                    <a href="{{ route('users.departments.edit',['id'=>$department_user->department_id,'user'=>$user->id]) }}"
+                                                       class="btn btn-warning">Edit</a>
+                                                    <form action="#" method="post"
+                                                          class="form inline">
+                                                        {{ csrf_field() }}
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <button class="btn btn-danger " type="submit">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
                                 @endforeach
                                 </tbody>
                                 <tfoot>
