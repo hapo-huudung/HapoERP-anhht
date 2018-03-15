@@ -22,6 +22,7 @@ class CreateUserRolesTable extends Migration
             $table->boolean('update');
             $table->boolean('delete');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

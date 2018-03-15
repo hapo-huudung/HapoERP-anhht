@@ -26,7 +26,7 @@ class UserController extends Controller
     public function select($id)
     {
         $users = User::all();
-        $department_users = UserRole::where('department_id', $id)->get();
+        $department_users = UserRole::withTrashed()->where('department_id', $id)->get();
         $data = [
             'users' => $users,
             'department_users' => $department_users,
@@ -94,23 +94,45 @@ class UserController extends Controller
         return view('departments.edit', $data);
     }
 
-    public function update(Request $request,$id,$user)
+    public function update(Request $request, $id, $user)
     {
-        dd($user);
+        $user_roles = UserRole::where('department_id', $id)->where('user_id', $user)->get();
+        $create = UserRole::FALSE;
+        $update = UserRole::FALSE;
+        $read = UserRole::FALSE;
+        $delete = UserRole::FALSE;
+        if ($request->has('create')) {
+            $create = UserRole::TRUE;
+        }
+        if ($request->has('read')) {
+            $read = UserRole::TRUE;
+        }
+        if ($request->has('delete')) {
+            $delete = UserRole::TRUE;
+        }
+        if ($request->has('update')) {
+            $update = UserRole::TRUE;
+        }
+        foreach ($user_roles as $user_role) {
+            $user_role->update([
+                'create' => $create,
+                'read' => $read,
+                'update' => $update,
+                'delete' => $delete,
+            ]);
+            $user_role->save();
+        }
+        return redirect()->route('users.departments', ['id' => $id]);
     }
 
-    public function read()
+    public function destroy($id,$user)
     {
-        echo "read";
+        $user_roles=UserRole::where('user_id',$user)->where('department_id',$id)->get();
+        foreach($user_roles as $user_role)
+        {
+            $user_role->delete();
+        }
+        return redirect()->route('users.departments',['id'=>$id]);
     }
 
-    public function delete()
-    {
-        echo "delete";
-    }
-
-    public function show()
-    {
-        echo "success";
-    }
 }

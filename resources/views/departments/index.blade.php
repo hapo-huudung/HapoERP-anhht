@@ -31,6 +31,7 @@
                                     <th>Email</th>
                                     <th>Birthday</th>
                                     <th>Address</th>
+                                    <th>Ability</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -44,10 +45,25 @@
                                                 <td>{{$user->birthday}}</td>
                                                 <td>{{$user->address}}</td>
                                                 <td>
+                                                    @if($department_user->create==\App\Models\UserRole::TRUE)
+                                                        <span class="label label-primary">C</span>
+                                                    @endif
+                                                    @if($department_user->read==\App\Models\UserRole::TRUE)
+                                                        <span class="label label-success">R</span>
+                                                    @endif
+                                                    @if($department_user->update==\App\Models\UserRole::TRUE)
+                                                        <span class="label label-warning">U</span>
+                                                    @endif
+                                                    @if($department_user->delete==\App\Models\UserRole::TRUE)
+                                                        <span class="label label-danger">D</span>
+                                                    @endif
+                                                </td>
+                                                <td>
                                                     <a href="#" class="btn btn-success">Show</a>
                                                     <a href="{{ route('users.departments.edit',['id'=>$department_user->department_id,'user'=>$user->id]) }}"
                                                        class="btn btn-warning">Edit</a>
-                                                    <form action="#" method="post"
+                                                    <form action="{{ route('users.departments.destroy',['id'=>$department_user->department_id,'user'=>$user->id]) }}"
+                                                          method="post"
                                                           class="form inline">
                                                         {{ csrf_field() }}
                                                         <input type="hidden" name="_method" value="DELETE">
