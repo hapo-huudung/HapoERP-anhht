@@ -11,8 +11,8 @@ class CheckDelete
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -23,7 +23,7 @@ class CheckDelete
 
         foreach ($users as $user) {
             if ($user->delete != 1) {
-                return redirect()->back();
+                return redirect()->route('users.show', ['id'=>$id]);
             }
         }
         return $next($request);

@@ -37,8 +37,6 @@
                     </li>
                     <li><a href="{{ route('users.edit', Auth::user()->id) }}"><i class="fa fa-circle-o"></i> Edit</a>
                     </li>
-                    <li><a href="{{ route('users.rollcall', Auth::user()->id) }}"><i class="fa fa-circle-o"></i> Roll
-                            Call</a></li>
                 </ul>
             </li>
             @if(Auth::user()->level == \App\Models\User::DYNAMIC)

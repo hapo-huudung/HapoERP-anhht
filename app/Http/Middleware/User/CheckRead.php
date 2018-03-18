@@ -23,7 +23,7 @@ class CheckRead
 
         foreach ($users as $user) {
             if ($user->read != 1) {
-                return redirect()->back();
+                return redirect()->route('users.departments',$department_id);
             }
         }
         return $next($request);

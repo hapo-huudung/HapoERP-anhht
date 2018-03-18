@@ -85,7 +85,7 @@ class UserController extends Controller
     public function edit($id, $user)
     {
 
-        $user_roles = UserRole::where('user_id', $user)->where('department_id', $id)->get();
+        $user_roles = UserRole::withTrashed()->where('user_id', $user)->where('department_id', $id)->get();
         $users = User::findOrFail($user);
         $data = [
             'users' => $users,
@@ -96,7 +96,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id, $user)
     {
-        $user_roles = UserRole::where('department_id', $id)->where('user_id', $user)->get();
+        $user_roles = UserRole::withTrashed()->where('department_id', $id)->where('user_id', $user)->get();
         $create = UserRole::FALSE;
         $update = UserRole::FALSE;
         $read = UserRole::FALSE;
@@ -125,14 +125,43 @@ class UserController extends Controller
         return redirect()->route('users.departments', ['id' => $id]);
     }
 
-    public function destroy($id,$user)
+    public function destroy($id, $user)
     {
-        $user_roles=UserRole::where('user_id',$user)->where('department_id',$id)->get();
-        foreach($user_roles as $user_role)
-        {
+        $user_roles = UserRole::where('user_id', $user)->where('department_id', $id)->get();
+        foreach ($user_roles as $user_role) {
             $user_role->delete();
         }
-        return redirect()->route('users.departments',['id'=>$id]);
+        return redirect()->route('users.departments.baned', ['id' => $id]);
     }
 
+    public function show($id, $user_id)
+    {
+        $users = User::findOrFail($user_id);
+        $user_roles = UserRole::withTrashed()->where('user_id', $user_id)->where('department_id', $id)->get();
+
+        $data = [
+            'users' => $users,
+            'user_roles' => $user_roles,
+        ];
+        return view('departments.show', $data);
+    }
+
+    public function restore($id, $user)
+    {
+        $user_roles = UserRole::onlyTrashed()->where('department_id', $id)->where('user_id', $user)->get();
+        foreach ($user_roles as $user_role) {
+            $user_role->restore();
+        }
+        return redirect()->route('users.departments', ['id' => $id]);
+    }
+    public function baned($id)
+    {
+        $users=User::all();
+        $user_roles=UserRole::onlyTrashed()->where('department_id',$id)->get();
+        $data=[
+          'users'=>$users,
+          'user_roles'=>$user_roles,
+        ];
+        return view('departments.baned',$data);
+    }
 }

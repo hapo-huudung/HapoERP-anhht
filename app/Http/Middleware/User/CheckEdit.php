@@ -23,7 +23,7 @@ class CheckEdit
 
         foreach ($users as $user) {
             if ($user->update != 1) {
-                return redirect()->back();
+                return redirect()->route('users.departments',$department_id);
             }
         }
         return $next($request);

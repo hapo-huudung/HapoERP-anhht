@@ -58,18 +58,15 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $departments = Department::all();
-        $user_roles = UserRole::where('user_id', $user->id)->get();
         $data = [
             'user' => $user,
-            'departments' => $departments,
-            'user_roles' => $user_roles,
         ];
         return view('users.edit', $data);
     }
 
     public function update(UpdateUserRequest $request, $id)
     {
+        dd($request->all());
         $user = User::findOrFail($id);
         $user->update([
             'name' => $request->name,
@@ -87,11 +84,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->back();
-    }
-
-    public function rollCall()
-    {
-        dd(Carbon::now());
     }
 
     public function uploadAvatar(Request $request, $id)

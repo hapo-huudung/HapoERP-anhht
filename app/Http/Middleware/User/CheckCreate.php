@@ -23,7 +23,7 @@ class CheckCreate
 
         foreach ($users as $user) {
             if ($user->create != 1) {
-                return redirect()->back();
+                return redirect()->route('users.departments',$department_id);
             }
         }
         return $next($request);

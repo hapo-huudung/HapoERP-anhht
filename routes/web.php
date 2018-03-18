@@ -20,10 +20,9 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::namespace('User')->group(function () {
-        Route::get('users/{user}/rollcall', 'UserController@rollCall')->name('users.rollcall');
+    Route::middleware('ability')->namespace('User')->group(function () {
         Route::put('users/{user}/uploadavatar', 'UserController@uploadAvatar')->name('users.upload.avatar');
-        Route::resource('users', 'UserController');
+        Route::resource('users', 'UserController',['only'=>['show','edit','update']]);
     });
     Route::middleware('level')->prefix('user/manage')->namespace('User')->group(function (){
        Route::get('/','ManageController@index')->name('users.manage');
@@ -51,7 +50,11 @@ Route::middleware('auth')->group(function () {
         });
 //
         Route::middleware('read')->group(function () {
-            Route::get('{id}/read', 'UserController@read')->name('users.departments.read');
+            Route::get('{id}/show/{user}', 'UserController@show')->name('users.departments.show');
+        });
+        Route::middleware('create')->group(function (){
+           Route::get('{id}/restore/{user}','UserController@restore')->name('users.departments.restore');
+           Route::get('{id}/baned','UserController@baned')->name('users.departments.baned');
         });
     });
 });

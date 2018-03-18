@@ -48,10 +48,10 @@
                                         <!-- /.input group -->
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-2">
+                                        <div class="">
                                             <label>Ability: </label>
                                         </div>
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-12">
                                             <div class="col-sm-3">
                                                 <input type="checkbox" id="create" name="create"
                                                        @if($user_role->create==1) checked @endif>
@@ -75,8 +75,10 @@
                                         </div>
                                     </div>
                                     <!-- /.box-body -->
-                                    <div class="box-footer">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    <div class="box-footer with-border">
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
                                     </div>
                                     <input type="hidden" name="_method" value="PUT">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

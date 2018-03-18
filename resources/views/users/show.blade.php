@@ -115,7 +115,6 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
                             <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
-                            <li><a href="#edit" data-toggle="tab">Edit</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="active tab-pane" id="activity">
@@ -345,66 +344,6 @@
                                         <i class="fa fa-clock-o bg-gray"></i>
                                     </li>
                                 </ul>
-                            </div>
-                            <!-- /.tab-pane -->
-                            <div class="tab-pane" id="edit">
-                                <form class="form-horizontal"
-                                      action="{{ route('users.update',['id'=>$user->id]) }} "
-                                      method="POST">
-                                    {{ csrf_field() }}
-                                    <input type="hidden" name="_method" value="PUT">
-                                    <div class="form-group {{  $errors->has('name') ? 'has-error' : ''}}">
-                                        <label for="name" class="col-sm-2 control-label">Name</label>
-
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                   placeholder="{{ $user->name }}">
-                                            @if ($errors->has('name'))
-                                                <span class="has-feedback text-center">
-                                            <strong>{{ $errors->first('name') }}</p>
-                                            </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{  $errors->has('email') ? 'has-error' : ''}}">
-                                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control " id="email" name="email"
-                                                   placeholder="{{ $user->email }}">
-                                            @if ($errors->has('email'))
-                                                <span class="has-feedback">
-                                                <strong>{{$errors->first('email') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="address" class="col-sm-2 control-label">Address</label>
-
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="address" name="address"
-                                                   placeholder="Address">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="birthday" class="col-sm-2 control-label">Birthday</label>
-
-                                        <div class="col-sm-10">
-                                            <input type="date" class="form-control" id="birthday"
-                                                   name="birthday"></input>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger">Submit</button>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="_method" value="PUT">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                                </form>
                             </div>
                             <!-- /.tab-pane -->
                         </div>

@@ -37,39 +37,34 @@
                                 </thead>
                                 <tbody>
                                 @foreach($users as $user)
-                                    @foreach($department_users as $department_user)
-                                        @if($department_user->user_id == $user->id)
+                                    @foreach($user_roles as $user_role)
+                                        @if($user_role->user_id == $user->id)
                                             <tr>
                                                 <td>{{$user->name}}</td>
                                                 <td>{{$user->email}}</td>
                                                 <td>{{$user->birthday}}</td>
                                                 <td>{{$user->address}}</td>
                                                 <td>
-                                                    @if($department_user->create==\App\Models\UserRole::TRUE)
+                                                    @if($user_role->create==\App\Models\UserRole::TRUE)
                                                         <span class="label label-primary">C</span>
                                                     @endif
-                                                    @if($department_user->read==\App\Models\UserRole::TRUE)
+                                                    @if($user_role->read==\App\Models\UserRole::TRUE)
                                                         <span class="label label-success">R</span>
                                                     @endif
-                                                    @if($department_user->update==\App\Models\UserRole::TRUE)
+                                                    @if($user_role->update==\App\Models\UserRole::TRUE)
                                                         <span class="label label-warning">U</span>
                                                     @endif
-                                                    @if($department_user->delete==\App\Models\UserRole::TRUE)
+                                                    @if($user_role->delete==\App\Models\UserRole::TRUE)
                                                         <span class="label label-danger">D</span>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('users.departments.show',['id'=>$department_user->department_id,'user'=>$user->id]) }}"
+                                                    <a href="{{ route('users.departments.show',['id'=>$user_role->department_id,'user'=>$user->id]) }}"
                                                        class="btn btn-success">Show</a>
-                                                    <a href="{{ route('users.departments.edit',['id'=>$department_user->department_id,'user'=>$user->id]) }}"
+                                                    <a href="{{ route('users.departments.edit',['id'=>$user_role->department_id,'user'=>$user->id]) }}"
                                                        class="btn btn-warning">Edit</a>
-                                                    <form action="{{ route('users.departments.destroy',['id'=>$department_user->department_id,'user'=>$user->id]) }}"
-                                                          method="post"
-                                                          class="form inline">
-                                                        {{ csrf_field() }}
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <button class="btn btn-danger " type="submit">Delete</button>
-                                                    </form>
+                                                    <a href="{{ route('users.departments.restore',['id'=>$user_role->department_id,'user'=>$user->id]) }}"
+                                                       class="btn btn-primary">Restore</a>
                                                 </td>
                                             </tr>
                                         @endif

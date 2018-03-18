@@ -21,5 +21,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
         'birthday' => $faker->dateTimeBetween('1990-2-2', 'now'),
         'level' => $faker->numberBetween(1,2),
+        'address' => 'Ha Noi',
     ];
 });
