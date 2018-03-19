@@ -23,10 +23,8 @@ class AppServiceProvider extends ServiceProvider
                 'user_roles' => UserRole::where('user_id', Auth::id())->get(),
                 'departments' => Department::all(),
             ]);
-
         });
         Schema::defaultStringLength(191);
-
     }
 
     /**

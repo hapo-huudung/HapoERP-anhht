@@ -22,7 +22,9 @@ class CheckDepartment
         $user_id = Auth::user()->id;
         $results = UserRole::where('user_id', $user_id)->where('department_id', $department_id)->get();
         foreach ($results as $result) {
-            if ($result->deleted != null) $check = 1;
+            if ($result->deleted != null) {
+                $check = 1;
+            }
         }
         if ($results->count() == 0 || $check == 1) {
             return redirect()->back();

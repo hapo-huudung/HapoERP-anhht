@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware\User;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,8 +17,7 @@ class Ability
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->id != $request->user)
-        {
+        if (Auth::user()->id != $request->user) {
             return redirect()->back();
         }
         return $next($request);

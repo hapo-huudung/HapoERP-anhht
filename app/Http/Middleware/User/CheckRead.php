@@ -23,7 +23,7 @@ class CheckRead
 
         foreach ($users as $user) {
             if ($user->read == UserRole::FALSE) {
-                return redirect()->route('users.departments',$department_id);
+                return redirect()->route('users.departments', $department_id);
             }
         }
         return $next($request);

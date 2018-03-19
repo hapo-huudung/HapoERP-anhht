@@ -22,10 +22,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::middleware('ability')->namespace('User')->group(function () {
         Route::put('users/{user}/uploadavatar', 'UserController@uploadAvatar')->name('users.upload.avatar');
-        Route::resource('users', 'UserController',['only'=>['show','edit','update']]);
+        Route::resource('users', 'UserController', ['only'=>['show','edit','update']]);
     });
-    Route::middleware('level')->prefix('user/manage')->namespace('User')->group(function (){
-       Route::get('/','ManageController@index')->name('users.manage');
+    Route::middleware('level')->namespace('User')->group(function () {
+        Route::prefix('user/manage')->group(function (){
+            Route::get('/', 'ManageController@index')->name('users.manage');
+            Route::get('show/{user}', 'ManageController@userShow')->name('users.manage.user.show');
+        });
+        Route::prefix('department/manage')->group(function (){
+
+        });
+
     });
     Route::resource('reports', 'ReportController');
     Route::resource('reportots', 'ReportOTController');
@@ -36,13 +43,13 @@ Route::middleware('auth')->group(function () {
 //
         Route::middleware('create')->group(function () {
             Route::get('{id}/select', 'UserController@select')->name('users.departments.select');
-            Route::get('{id}/create/{member}','UserController@create')->name('users.departments.create');
-            Route::post('{id}','UserController@store')->name('users.departments.store');
+            Route::get('{id}/create/{member}', 'UserController@create')->name('users.departments.create');
+            Route::post('{id}', 'UserController@store')->name('users.departments.store');
         });
 //
         Route::middleware('edit')->group(function () {
-            Route::get('{id}/edit/{member}','UserController@edit')->name('users.departments.edit');
-            Route::put('{id}/{member}','UserController@update')->name('users.departments.update');
+            Route::get('{id}/edit/{member}', 'UserController@edit')->name('users.departments.edit');
+            Route::put('{id}/{member}', 'UserController@update')->name('users.departments.update');
         });
 //
         Route::middleware('delete')->group(function () {
@@ -52,9 +59,9 @@ Route::middleware('auth')->group(function () {
         Route::middleware('read')->group(function () {
             Route::get('{id}/show/{member}', 'UserController@show')->name('users.departments.show');
         });
-        Route::middleware('baned')->group(function (){
-           Route::get('{id}/restore/{member}','UserController@restore')->name('users.departments.restore');
-           Route::get('{id}/baned','UserController@baned')->name('users.departments.baned');
+        Route::middleware('baned')->group(function () {
+            Route::get('{id}/restore/{member}', 'UserController@restore')->name('users.departments.restore');
+            Route::get('{id}/baned', 'UserController@baned')->name('users.departments.baned');
         });
     });
 });

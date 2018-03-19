@@ -16,7 +16,7 @@ class DepartmentServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        view()->composer('departments.*', function ($view) {
+        view()->composer(['departments.*','users.*'], function ($view) {
             $view->with([
                 'member_lists' => User::all(),
             ]);

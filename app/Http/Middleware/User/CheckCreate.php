@@ -22,7 +22,7 @@ class CheckCreate
         $users = UserRole::where('user_id', $id)->where('department_id', $department_id)->get();
         foreach ($users as $user) {
             if ($user->create == UserRole::FALSE) {
-                return redirect()->route('users.departments',$department_id);
+                return redirect()->route('users.departments', $department_id);
             }
         }
         return $next($request);

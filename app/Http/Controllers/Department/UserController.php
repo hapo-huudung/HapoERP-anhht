@@ -15,7 +15,7 @@ class UserController extends Controller
     //
     public function index($id)
     {
-        $user_roles=UserRole::where('user_id',Auth::id())->where('department_id',$id)->get();
+        $user_roles=UserRole::where('user_id', Auth::id())->where('department_id', $id)->get();
         $member_roles = UserRole::where('department_id', $id)->get();
         $data = [
             'member_roles' => $member_roles,
@@ -33,7 +33,7 @@ class UserController extends Controller
         return view('departments.select', $data);
     }
 
-    public function create($id,$member)
+    public function create($id, $member)
     {
         $department_role = Department::findOrFail($id);
         $member = User::findOrFail($member);
@@ -137,7 +137,7 @@ class UserController extends Controller
     {
         $members = User::findOrFail($member);
         $member_roles = UserRole::withTrashed()->where('user_id', $member)->where('department_id', $id)->get();
-        $user_roles=UserRole::where('user_id',Auth::id())->where('department_id',$id)->get();
+        $user_roles=UserRole::where('user_id', Auth::id())->where('department_id', $id)->get();
         $data = [
             'member' => $members,
             'member_roles' => $member_roles,
@@ -148,7 +148,7 @@ class UserController extends Controller
 
     public function restore($id, $member)
     {
-        $member_roles = UserRole::onlyTrashed()->where('department_id', $id)->where('user_id',$member)->get();
+        $member_roles = UserRole::onlyTrashed()->where('department_id', $id)->where('user_id', $member)->get();
         foreach ($member_roles as $member_role) {
             $member_role->restore();
         }
@@ -156,12 +156,12 @@ class UserController extends Controller
     }
     public function baned($id)
     {
-        $member_roles=UserRole::onlyTrashed()->where('department_id',$id)->get();
-        $user_roles=UserRole::where('user_id',Auth::id())->where('department_id',$id)->get();
+        $member_roles=UserRole::onlyTrashed()->where('department_id', $id)->get();
+        $user_roles=UserRole::where('user_id', Auth::id())->where('department_id', $id)->get();
         $data=[
           'member_roles'=>$member_roles,
             'user_roles'=>$user_roles,
         ];
-        return view('departments.baned',$data);
+        return view('departments.baned', $data);
     }
 }
