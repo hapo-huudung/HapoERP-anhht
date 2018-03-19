@@ -36,24 +36,24 @@ Route::middleware('auth')->group(function () {
 //
         Route::middleware('create')->group(function () {
             Route::get('{id}/select', 'UserController@select')->name('users.departments.select');
-            Route::get('{id}/create/{user}','UserController@create')->name('users.departments.create');
+            Route::get('{id}/create/{member}','UserController@create')->name('users.departments.create');
             Route::post('{id}','UserController@store')->name('users.departments.store');
         });
 //
         Route::middleware('edit')->group(function () {
-            Route::get('{id}/edit/{user}','UserController@edit')->name('users.departments.edit');
-            Route::put('{id}/{user}','UserController@update')->name('users.departments.update');
+            Route::get('{id}/edit/{member}','UserController@edit')->name('users.departments.edit');
+            Route::put('{id}/{member}','UserController@update')->name('users.departments.update');
         });
 //
         Route::middleware('delete')->group(function () {
-            Route::delete('{id}/{user}', 'UserController@destroy')->name('users.departments.destroy');
+            Route::delete('{id}/{member}', 'UserController@destroy')->name('users.departments.destroy');
         });
 //
         Route::middleware('read')->group(function () {
-            Route::get('{id}/show/{user}', 'UserController@show')->name('users.departments.show');
+            Route::get('{id}/show/{member}', 'UserController@show')->name('users.departments.show');
         });
-        Route::middleware('create')->group(function (){
-           Route::get('{id}/restore/{user}','UserController@restore')->name('users.departments.restore');
+        Route::middleware('baned')->group(function (){
+           Route::get('{id}/restore/{member}','UserController@restore')->name('users.departments.restore');
            Route::get('{id}/baned','UserController@baned')->name('users.departments.baned');
         });
     });

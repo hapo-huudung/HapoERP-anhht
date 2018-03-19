@@ -10,7 +10,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">List Users</li>
+                <li class="active">List Members</li>
             </ol>
         </section>
 
@@ -38,12 +38,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($users as $user)
+                                @foreach($member_lists as $member_list)
                                     @php
                                         $count =0
                                     @endphp
-                                    @foreach($department_users as $department_user)
-                                        @if($department_user->user_id == $user->id)
+                                    @foreach($member_roles as $member_role)
+                                        @if($member_role->user_id == $member_list->id)
                                             @php
                                                 $count=1
                                             @endphp
@@ -51,12 +51,13 @@
                                     @endforeach
                                     @if($count != 1)
                                         <tr>
-                                            <td>{{$user->name}}</td>
-                                            <td>{{$user->email}}</td>
-                                            <td>{{$user->birthday}}</td>
-                                            <td>{{$user->address}}</td>
+                                            <td>{{$member_list->name}}</td>
+                                            <td>{{$member_list->email}}</td>
+                                            <td>{{$member_list->birthday}}</td>
+                                            <td>{{$member_list->address}}</td>
                                             <td>
-                                                <a href="{{ route('users.departments.create',['user'=>$user->id,'id'=>$department_user->department_id]) }}" class="btn btn-success">Add</a>
+                                                <a href="{{ route('users.departments.create',['member'=>$member_list->id,'id'=>$member_role->department_id]) }}"
+                                                   class="btn btn-success">Add</a>
                                             </td>
                                         </tr>
                                     @endif

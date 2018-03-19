@@ -23,6 +23,31 @@
                             <h3 class="box-title">Hover Data Table</h3>
                         </div>
                         <!-- /.box-header -->
+                        @php
+                            $create=\App\Models\UserRole::FALSE;
+                            $read=\App\Models\UserRole::FALSE;
+                            $delete=\App\Models\UserRole::FALSE;
+                            $edit=\App\Models\UserRole::FALSE;
+                        @endphp
+                        @foreach($user_roles as $user_role)
+                            @if($user_role->user_id== Auth::user()->id)
+                                @if($user_role->read==\App\Models\UserRole::TRUE)
+                                    @php
+                                        $read=\App\Models\UserRole::TRUE;
+                                    @endphp
+                                @endif
+                                @if($user_role->update==\App\Models\UserRole::TRUE)
+                                    @php
+                                        $edit=\App\Models\UserRole::TRUE;
+                                    @endphp
+                                @endif
+                                @if($user_role->delete==\App\Models\UserRole::TRUE)
+                                    @php
+                                        $delete=\App\Models\UserRole::TRUE;
+                                    @endphp
+                                @endif
+                            @endif
+                        @endforeach
                         <div class="box-body">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
@@ -36,35 +61,35 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($users as $user)
-                                    @foreach($user_roles as $user_role)
-                                        @if($user_role->user_id == $user->id)
+                                @foreach($member_lists as $member_list)
+                                    @foreach($member_roles as $member_role)
+                                        @if($member_role->user_id == $member_list->id)
                                             <tr>
-                                                <td>{{$user->name}}</td>
-                                                <td>{{$user->email}}</td>
-                                                <td>{{$user->birthday}}</td>
-                                                <td>{{$user->address}}</td>
+                                                <td>{{$member_list->name}}</td>
+                                                <td>{{$member_list->email}}</td>
+                                                <td>{{$member_list->birthday}}</td>
+                                                <td>{{$member_list->address}}</td>
                                                 <td>
-                                                    @if($user_role->create==\App\Models\UserRole::TRUE)
+                                                    @if($member_role->create==\App\Models\UserRole::TRUE)
                                                         <span class="label label-primary">C</span>
                                                     @endif
-                                                    @if($user_role->read==\App\Models\UserRole::TRUE)
+                                                    @if($member_role->read==\App\Models\UserRole::TRUE)
                                                         <span class="label label-success">R</span>
                                                     @endif
-                                                    @if($user_role->update==\App\Models\UserRole::TRUE)
+                                                    @if($member_role->update==\App\Models\UserRole::TRUE)
                                                         <span class="label label-warning">U</span>
                                                     @endif
-                                                    @if($user_role->delete==\App\Models\UserRole::TRUE)
+                                                    @if($member_role->delete==\App\Models\UserRole::TRUE)
                                                         <span class="label label-danger">D</span>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('users.departments.show',['id'=>$user_role->department_id,'user'=>$user->id]) }}"
-                                                       class="btn btn-success">Show</a>
-                                                    <a href="{{ route('users.departments.edit',['id'=>$user_role->department_id,'user'=>$user->id]) }}"
-                                                       class="btn btn-warning">Edit</a>
-                                                    <a href="{{ route('users.departments.restore',['id'=>$user_role->department_id,'user'=>$user->id]) }}"
-                                                       class="btn btn-primary">Restore</a>
+                                                    <a href="{{ route('users.departments.show',['id'=>$member_role->department_id,'user'=>$member_list->id]) }}"
+                                                       class="btn btn-success {{ $read==\App\Models\UserRole::FALSE? 'hidden': '' }}">Show</a>
+                                                    <a href="{{ route('users.departments.edit',['id'=>$member_role->department_id,'user'=>$member_list->id]) }}"
+                                                       class="btn btn-warning {{ $edit==\App\Models\UserRole::FALSE? 'hidden': '' }}">Edit</a>
+                                                    <a href="{{ route('users.departments.restore',['id'=>$member_role->department_id,'user'=>$member_list->id]) }}"
+                                                       class="btn btn-primary {{ $delete==\App\Models\UserRole::FALSE && $create==\App\Models\UserRole::FALSE ? 'hidden': '' }}">Restore</a>
                                                 </td>
                                             </tr>
                                         @endif

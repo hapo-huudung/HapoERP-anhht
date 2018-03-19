@@ -68,23 +68,27 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                @if( $user_role->create == 1)
+                                @if( $user_role->create == \App\Models\UserRole::TRUE)
                                     <li>
                                         <a href="{{ route('users.departments.select',['id'=>$user_role->department_id]) }}"><i
                                                     class="fa fa-circle-o"></i> Create Member</a>
                                     </li>
                                 @endif
-                                @if( $user_role->read == 1)
+                                <li>
+                                    <a href="{{ route('users.departments',['id'=>$user_role->department_id]) }}"><i
+                                                class="fa fa-circle-o"></i> List Member</a>
+                                </li>
+                                @if( $user_role->create == \App\Models\UserRole::TRUE || $user_role->delete==\App\Models\UserRole::TRUE)
                                     <li>
-                                        <a href="{{ route('users.departments',['id'=>$user_role->department_id]) }}"><i
-                                                    class="fa fa-circle-o"></i> List Member</a>
+                                        <a href="{{ route('users.departments.baned',['id'=>$user_role->department_id]) }}"><i
+                                                    class="fa fa-circle-o"></i> List Baned</a>
                                     </li>
                                 @endif
                             </ul>
                         </li>
-                    @endif
-                @endforeach
-            @endforeach
+        @endif
+        @endforeach
+        @endforeach
 
     </section>
     <!-- /.sidebar -->

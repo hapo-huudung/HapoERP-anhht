@@ -15,6 +15,31 @@
         </section>
 
         <!-- Main content -->
+        @php
+            $create=\App\Models\UserRole::FALSE;
+            $read=\App\Models\UserRole::FALSE;
+            $delete=\App\Models\UserRole::FALSE;
+            $edit=\App\Models\UserRole::FALSE;
+        @endphp
+        @foreach($user_roles as $user_role)
+            @if($user_role->user_id== Auth::user()->id)
+                @if($user_role->read==\App\Models\UserRole::TRUE)
+                    @php
+                        $read=\App\Models\UserRole::TRUE;
+                    @endphp
+                @endif
+                @if($user_role->update==\App\Models\UserRole::TRUE)
+                    @php
+                        $edit=\App\Models\UserRole::TRUE;
+                    @endphp
+                @endif
+                @if($user_role->delete==\App\Models\UserRole::TRUE)
+                    @php
+                        $delete=\App\Models\UserRole::TRUE;
+                    @endphp
+                @endif
+            @endif
+        @endforeach
         <section class="content">
             <div class="row">
                 <!-- left column -->
@@ -26,35 +51,35 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        @foreach($user_roles as $user_role)
+                        @foreach($member_roles as $member_role)
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="exampleInputName">Avatar</label>
                                     <div>
-                                        <img src="{{ $users->avatar }}" alt="" style="width: 100px">
+                                        <img src="{{ $member->avatar }}" alt="" style="width: 100px">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Member since: </label>
-                                    <p>{{ $users->created_at->format('d.F.y') }}</p>
+                                    <p>{{ $member->created_at->format('d.F.y') }}</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputName">Full name</label>
-                                    <div class="form-control">{{ $users->name }}</div>
+                                    <div class="form-control">{{ $member->name }}</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail">Email address</label>
-                                    <div class="form-control">{{ $users->email }}</div>
+                                    <div class="form-control">{{ $member->email }}</div>
                                 </div>
                                 <!-- Date -->
                                 <div class="form-group">
                                     <label>Day of birth</label>
-                                    <div class="form-control">{{ $users->birthday }}</div>
+                                    <div class="form-control">{{ $member->birthday }}</div>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputName">Address</label>
-                                    <div class="form-control">{{ $users->address }}</div>
+                                    <div class="form-control">{{ $member->address }}</div>
                                 </div>
                                 <div class="form-group">
                                     <div class="">
@@ -63,22 +88,22 @@
                                     <div class="col-sm-12">
                                         <div class="col-sm-3">
                                             <input type="checkbox" id="create" name="create" disabled
-                                                   @if($user_role->create==1) checked @endif>
+                                                   @if($member_role->create==\App\Models\UserRole::TRUE) checked @endif>
                                             <label for="create">Create</label>
                                         </div>
                                         <div class="col-sm-3">
                                             <input type="checkbox" id="read" name="read" disabled
-                                                   @if($user_role->read==1) checked @endif>
+                                                   @if($member_role->read==\App\Models\UserRole::TRUE) checked @endif>
                                             <label for="read">Read</label>
                                         </div>
                                         <div class="col-sm-3">
                                             <input type="checkbox" id="update" name="update" disabled
-                                                   @if($user_role->update==1) checked @endif>
+                                                   @if($member_role->update==\App\Models\UserRole::TRUE) checked @endif>
                                             <label for="update">Update</label>
                                         </div>
                                         <div class="col-sm-3">
                                             <input type="checkbox" id="delete" name="delete" disabled
-                                                   @if($user_role->delete==1) checked @endif>
+                                                   @if($member_role->delete==\App\Models\UserRole::TRUE) checked @endif>
                                             <label for="delete">Delete</label>
                                         </div>
                                     </div>
@@ -91,7 +116,9 @@
                     <!-- /.box -->
                         <div class="box-footer with-border">
                             <div class="text-center">
-                                <a href="#" class="text-centre btn btn-success">Edit</a>
+                                <a href="{{ route('users.departments.edit',['id'=>$member_role->department_id,'user'=>$member_role->user_id]) }}"
+                                   class="btn btn-success {{ $edit==\App\Models\UserRole::FALSE|| $member_role->user_id==Auth::id() ? 'hidden': '' }}">Edit</a>
+                                <a href="{{ route('users.departments',['id'=>$member_role->department_id]) }}" class="btn btn-primary">Back</a>
                             </div>
                         </div>
                     </div>

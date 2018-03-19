@@ -37,22 +37,22 @@
                         @endif
 
                         <form role="form"
-                              action="{{route('users.departments.store',['id'=>$department_id,'user'=>$user->id])}}"
+                              action="{{route('users.departments.store',['id'=>$department_id,'member'=>$member->id])}}"
                               method="POST">
                             {{ csrf_field() }}
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="exampleInputName">Full name</label>
-                                    <div class="form-control">{{ $user->name }}</div>
+                                    <div class="form-control">{{ $member->name }}</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail">Email address</label>
-                                    <div class="form-control">{{ $user->email }}</div>
+                                    <div class="form-control">{{ $member->email }}</div>
                                 </div>
                                 <!-- Date -->
                                 <div class="form-group">
                                     <label>Day of birth</label>
-                                    <div class="form-control">{{ $user->birthday }}</div>
+                                    <div class="form-control">{{ $member->birthday }}</div>
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">

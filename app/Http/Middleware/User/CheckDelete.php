@@ -22,7 +22,7 @@ class CheckDelete
         $users = UserRole::where('user_id', $id)->where('department_id', $department_id)->get();
 
         foreach ($users as $user) {
-            if ($user->delete != 1) {
+            if ($user->delete == UserRole::FALSE || $id == $request->member) {
                 return redirect()->route('users.show', ['id'=>$id]);
             }
         }

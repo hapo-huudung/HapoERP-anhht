@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\CheckCreate;
 use App\Http\Middleware\CheckDepartment;
+use App\Http\Middleware\User\CheckBaned;
 use App\Http\Middleware\User\CheckUpdate;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'delete' => \App\Http\Middleware\User\CheckDelete::class,
         'ability' => \App\Http\Middleware\User\Ability::class,
         'level' => \App\Http\Middleware\User\CheckLevel::class,
+        'baned' => \App\Http\Middleware\User\CheckBaned::class,
     ];
 }

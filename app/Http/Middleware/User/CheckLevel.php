@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware\User;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,7 @@ class CheckLevel
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->level == 1) {
+        if (Auth::user()->level == User::NORMAL) {
             return redirect()->back();
         }
         return $next($request);

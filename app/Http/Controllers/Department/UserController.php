@@ -7,43 +7,39 @@ use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
     //
     public function index($id)
     {
-        $users = User::all();
-        $department_users = UserRole::where('department_id', $id)->get();
+        $user_roles=UserRole::where('user_id',Auth::id())->where('department_id',$id)->get();
+        $member_roles = UserRole::where('department_id', $id)->get();
         $data = [
-            'users' => $users,
-            'department_users' => $department_users,
+            'member_roles' => $member_roles,
+            'user_roles' => $user_roles,
         ];
-        // dd($data);
         return view('departments.index', $data);
     }
 
     public function select($id)
     {
-        $users = User::all();
-        $department_users = UserRole::withTrashed()->where('department_id', $id)->get();
+        $member_roles = UserRole::withTrashed()->where('department_id', $id)->get();
         $data = [
-            'users' => $users,
-            'department_users' => $department_users,
+            'member_roles' => $member_roles,
         ];
-//        dd($data);
         return view('departments.select', $data);
     }
 
-    public function create()
+    public function create($id,$member)
     {
-        $user_id = request()->user;
-        $department_id = \request()->id;
-        $department_role = Department::findOrFail($department_id);
-        $user = User::findOrFail($user_id);
+        $department_role = Department::findOrFail($id);
+        $member = User::findOrFail($member);
         $data = [
-            'user' => $user,
-            'department_id' => $department_id,
+            'member' => $member,
+            'department_id' => $id,
             'department_role' => $department_role,
         ];
         return view('departments.create', $data);
@@ -51,12 +47,14 @@ class UserController extends Controller
 
     public function store(Request $request, $id)
     {
-        $user_id = $request->user;
+        $member_id = $request->member;
         $department_id = $id;
+
         $create = UserRole::FALSE;
         $update = UserRole::FALSE;
         $read = UserRole::FALSE;
         $delete = UserRole::FALSE;
+
         if ($request->has('create')) {
             $create = UserRole::TRUE;
         }
@@ -69,38 +67,39 @@ class UserController extends Controller
         if ($request->has('update')) {
             $update = UserRole::TRUE;
         }
-        $user_role = new UserRole();
-        $user_role->fill([
+        $member_role = new UserRole();
+        $member_role->fill([
             'department_id' => $department_id,
-            'user_id' => $user_id,
+            'user_id' => $member_id,
             'create' => $create,
             'update' => $update,
             'delete' => $delete,
             'read' => $read,
         ]);
-        $user_role->save();
+        $member_role->save();
         return redirect()->route('users.departments', $department_id);
     }
 
-    public function edit($id, $user)
+    public function edit($id, $member)
     {
-
-        $user_roles = UserRole::withTrashed()->where('user_id', $user)->where('department_id', $id)->get();
-        $users = User::findOrFail($user);
+        $member_roles = UserRole::withTrashed()->where('user_id', $member)->where('department_id', $id)->get();
+        $members = User::findOrFail($member);
         $data = [
-            'users' => $users,
-            'user_roles' => $user_roles,
+            'members' => $members,
+            'member_roles' => $member_roles,
         ];
         return view('departments.edit', $data);
     }
 
-    public function update(Request $request, $id, $user)
+    public function update(Request $request, $id, $member)
     {
-        $user_roles = UserRole::withTrashed()->where('department_id', $id)->where('user_id', $user)->get();
+        $member_roles = UserRole::withTrashed()->where('department_id', $id)->where('user_id', $member)->get();
+
         $create = UserRole::FALSE;
         $update = UserRole::FALSE;
         $read = UserRole::FALSE;
         $delete = UserRole::FALSE;
+
         if ($request->has('create')) {
             $create = UserRole::TRUE;
         }
@@ -113,54 +112,55 @@ class UserController extends Controller
         if ($request->has('update')) {
             $update = UserRole::TRUE;
         }
-        foreach ($user_roles as $user_role) {
-            $user_role->update([
+        foreach ($member_roles as $member_role) {
+            $member_role->update([
                 'create' => $create,
                 'read' => $read,
                 'update' => $update,
                 'delete' => $delete,
             ]);
-            $user_role->save();
+            $member_role->save();
         }
         return redirect()->route('users.departments', ['id' => $id]);
     }
 
-    public function destroy($id, $user)
+    public function destroy($id, $member)
     {
-        $user_roles = UserRole::where('user_id', $user)->where('department_id', $id)->get();
-        foreach ($user_roles as $user_role) {
-            $user_role->delete();
+        $member_roles = UserRole::where('user_id', $member)->where('department_id', $id)->get();
+        foreach ($member_roles as $member_role) {
+            $member_role->delete();
         }
         return redirect()->route('users.departments.baned', ['id' => $id]);
     }
 
-    public function show($id, $user_id)
+    public function show($id, $member)
     {
-        $users = User::findOrFail($user_id);
-        $user_roles = UserRole::withTrashed()->where('user_id', $user_id)->where('department_id', $id)->get();
-
+        $members = User::findOrFail($member);
+        $member_roles = UserRole::withTrashed()->where('user_id', $member)->where('department_id', $id)->get();
+        $user_roles=UserRole::where('user_id',Auth::id())->where('department_id',$id)->get();
         $data = [
-            'users' => $users,
+            'member' => $members,
+            'member_roles' => $member_roles,
             'user_roles' => $user_roles,
         ];
         return view('departments.show', $data);
     }
 
-    public function restore($id, $user)
+    public function restore($id, $member)
     {
-        $user_roles = UserRole::onlyTrashed()->where('department_id', $id)->where('user_id', $user)->get();
-        foreach ($user_roles as $user_role) {
-            $user_role->restore();
+        $member_roles = UserRole::onlyTrashed()->where('department_id', $id)->where('user_id',$member)->get();
+        foreach ($member_roles as $member_role) {
+            $member_role->restore();
         }
         return redirect()->route('users.departments', ['id' => $id]);
     }
     public function baned($id)
     {
-        $users=User::all();
-        $user_roles=UserRole::onlyTrashed()->where('department_id',$id)->get();
+        $member_roles=UserRole::onlyTrashed()->where('department_id',$id)->get();
+        $user_roles=UserRole::where('user_id',Auth::id())->where('department_id',$id)->get();
         $data=[
-          'users'=>$users,
-          'user_roles'=>$user_roles,
+          'member_roles'=>$member_roles,
+            'user_roles'=>$user_roles,
         ];
         return view('departments.baned',$data);
     }
