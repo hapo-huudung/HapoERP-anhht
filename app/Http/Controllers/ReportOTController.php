@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Absence;
-use App\Models\Department;
-use App\Models\User;
-use App\Models\UserRole;
+use App\Models\ReportOT;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class ReportOTController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +15,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        //
+        $reportots = ReportOT::all();
         $data = [
-          'users' => $users,
+            'reportots' => $reportots,
         ];
-        return view('users.index',$data);
+        return view('reportots.index', $data);
     }
 
     /**
@@ -32,6 +31,7 @@ class UserController extends Controller
     public function create()
     {
         //
+        return view('reportots.create');
     }
 
     /**
@@ -42,7 +42,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $reportOTs = new ReportOT();
+        $reportOTs->starts_at = $request->starts_at;
+        dd($reportOTs);
+        $reportOTs->ends_at = $request->end_at;
+        $reportOTs->contents = $request->contents;
+        $reportOTs->user_id = Auth::id();
+        $reportOTs->save();
+        return redirect()->route('reportots.index');
     }
 
     /**
@@ -54,6 +61,11 @@ class UserController extends Controller
     public function show($id)
     {
         //
+        $reportot = ReportOT::findOrFail($id);
+        $data = [
+            'reportot' => $reportot,
+        ];
+        return view('reportots.show', $data);
     }
 
     /**

@@ -2,6 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckCreate;
+use App\Http\Middleware\CheckDepartment;
+use App\Http\Middleware\User\CheckBaned;
+use App\Http\Middleware\User\CheckUpdate;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -57,6 +61,14 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'throttle' => \Ill\App\Http\Middleware\uminate\Routing\Middleware\ThrottleRequests::class,
+        'departments' => \App\Http\Middleware\CheckDepartment::class,
+        'create' => \App\Http\Middleware\User\CheckCreate::class,
+        'edit' => \App\Http\Middleware\User\CheckEdit::class,
+        'read' => \App\Http\Middleware\User\CheckRead::class,
+        'delete' => \App\Http\Middleware\User\CheckDelete::class,
+        'ability' => \App\Http\Middleware\User\Ability::class,
+        'level' => \App\Http\Middleware\User\CheckLevel::class,
+        'baned' => \App\Http\Middleware\User\CheckBaned::class,
     ];
 }

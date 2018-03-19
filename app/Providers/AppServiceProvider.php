@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Department;
+use App\Models\UserRole;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +18,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        View::composer('modules.left-nav', function ($view) {
+            $view->with([
+                'user_roles' => UserRole::where('user_id', Auth::id())->get(),
+                'departments' => Department::all(),
+            ]);
+        });
         Schema::defaultStringLength(191);
     }
 

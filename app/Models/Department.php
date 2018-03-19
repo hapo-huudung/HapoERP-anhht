@@ -8,17 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     //
-    protected $fillable = [
-        'name',
-    ];
+    const TRUE = 1;
+    const FALSE = 0;
 
-    public function departmentRole()
-    {
-        return $this->hasOne(DepartmentRole::class);
-    }
+    protected $fillable = [
+        'name','create', 'read', 'update', 'delete',
+    ];
 
     public function users()
     {
-        return $this->belongsToMany(User::class,'user_roles');
+        return $this->belongsToMany(User::class, 'user_roles');
     }
 }
