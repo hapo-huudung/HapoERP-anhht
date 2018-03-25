@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NewUserRequest;
-use App\Models\Absence;
-use App\Models\Department;
-use App\Models\User;
-use App\Models\UserRole;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use function redirect;
+use App\Models\Absence;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class AbsenceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,12 +16,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-        $users = User::all();
+        $absences = Absence::all();
         $data = [
-            'users' => $users,
+          'absences' => $absences,
         ];
-        return view('users.index', $data);
+        return view('absences.index', $data);
     }
 
     /**
@@ -34,42 +30,45 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('absences.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NewUserRequest $request)
+    public function store(Request $request)
     {
-        //
-        User::create($request->all());
-        dd($request->errors);
-        return redirect()->route('users.index');
+        $abcense = new Absence();
+        $abcense->starts_at =  Carbon::parse($request->starts_at)->format('Y-m-d H:i:s');
+        $abcense->ends_at = Carbon::parse($request->ends_at)->format('Y-m-d H:i:s');
+        $abcense->user_id = Auth::id();
+        $abcense->contents =$request->contents;
+        $abcense->save();
+        return redirect()->route('absences.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $absence = Absence::findOrFail($id);
         $data = [
-            'user' => $user,
+            'absence' => $absence,
         ];
-        return view('users.show', $data);
+        return view('absences.show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,8 +79,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -92,13 +91,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->back();
+        //
     }
 }

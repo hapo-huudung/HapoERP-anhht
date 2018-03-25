@@ -9,7 +9,7 @@ class ReportOT extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'starts_at', 'ends_at', 'content', 'user_id',
+        'starts_at', 'ends_at', 'contents', 'user_id',
     ];
 
     protected $dates = [

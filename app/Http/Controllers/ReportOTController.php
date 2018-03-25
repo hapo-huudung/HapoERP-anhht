@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NewUserRequest;
-use App\Models\Absence;
-use App\Models\Department;
-use App\Models\User;
-use App\Models\UserRole;
+use App\Models\ReportOT;
 use Illuminate\Http\Request;
-use function redirect;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class ReportOTController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,11 +16,11 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users = User::all();
+        $reportots = ReportOT::all();
         $data = [
-            'users' => $users,
+            'reportots' => $reportots,
         ];
-        return view('users.index', $data);
+        return view('reportots.index', $data);
     }
 
     /**
@@ -34,42 +30,48 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        //
+        return view('reportots.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NewUserRequest $request)
+    public function store(Request $request)
     {
         //
-        User::create($request->all());
-        dd($request->errors);
-        return redirect()->route('users.index');
+        $reportOTs = new ReportOT();
+        $reportOTs->starts_at = $request->starts_at;
+        $reportOTs->ends_at = $request->end_at;
+        $reportOTs->contents = $request->contents;
+        $reportOTs->user_id = Auth::id();
+        $reportOTs->save();
+        return redirect()->route('reportots.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        //
+        $reportot = ReportOT::findOrFail($id);
         $data = [
-            'user' => $user,
+            'reportot' => $reportot,
         ];
-        return view('users.show', $data);
+        return view('reportots.show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,8 +82,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -92,13 +94,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->back();
+        //
     }
 }

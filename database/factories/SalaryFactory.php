@@ -3,9 +3,9 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\Salary::class, function (Faker $faker) {
-    $salary = $faker->randomFloat($nbMaxDecimals = NULL, $min = 2000, $max = 3000);
-    $salary_per_hour = $faker->randomFloat($nbMaxDecimals = NULL, $min = 10, $max = 30);
-    $insurance_money = $faker->randomFloat($nbMaxDecimals = NULL, $min = 50, $max = 100);
+    $salary = $faker->randomFloat($nbMaxDecimals = null, $min = 2000, $max = 3000);
+    $salary_per_hour = $faker->randomFloat($nbMaxDecimals = null, $min = 10, $max = 30);
+    $insurance_money = $faker->randomFloat($nbMaxDecimals = null, $min = 50, $max = 100);
     $final_payment = $salary - $insurance_money;
     return [
         'salary' => $salary,
