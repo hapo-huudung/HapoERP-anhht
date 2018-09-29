@@ -15,14 +15,15 @@ class DatabaseSeeder extends Seeder
             AbsencesTableSeeder::class,
             AdminsTableSeeder::class,
             HolidaysTableSeeder::class,
-            ReportOTsTableSeeder::class,
             UsersTableSeeder::class,
             ReportsTableSeeder::class,
             RollCallsTableSeeder::class,
             SalariesTableSeeder::class,
-            DepartmentRoleTableSeeder::class,
-            DepartmentTableSeeder::class,
-            UserRoleTableSeeder::class,
+            DepartmentRolesTableSeeder::class,
+            DepartmentsTableSeeder::class,
+            UserRolesTableSeeder::class,
+            CompanyUsersTableSeeder::class,
+            ReportOTsTableSeeder::class,
         ]);
     }
 }

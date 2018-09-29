@@ -15,8 +15,8 @@ class CreateRollCallsTable extends Migration
     {
         Schema::create('roll_calls', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('starts_at');
             $table->integer('user_id');
+            $table->integer('status');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Absence;
-use App\Models\Department;
-use App\Models\User;
-use App\Models\UserRole;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Absence;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class AbsenceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +16,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $absences = Absence::orderBy('created_at', 'DESC')->paginate();
         $data = [
-          'users' => $users,
+          'absences' => $absences,
         ];
-        return view('users.index',$data);
+        return view('absences.index', $data);
     }
 
     /**
@@ -31,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('absences.create');
     }
 
     /**
@@ -42,7 +41,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $abcense = new Absence();
+        $abcense->starts_at =  Carbon::parse($request->starts_at)->format('Y-m-d H:i:s');
+        $abcense->ends_at = Carbon::parse($request->ends_at)->format('Y-m-d H:i:s');
+        $abcense->user_id = Auth::id();
+        $abcense->contents =$request->contents;
+        $abcense->save();
+        return redirect()->route('absences.index');
     }
 
     /**
@@ -53,7 +58,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $absence = Absence::findOrFail($id);
+        $data = [
+            'absence' => $absence,
+        ];
+        return view('absences.show', $data);
     }
 
     /**
